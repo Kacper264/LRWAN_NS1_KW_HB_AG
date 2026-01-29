@@ -122,12 +122,10 @@ void EnvSensors_Read(sensor_t *sensor_data)
 void  EnvSensors_Init(void)
 {
   /* USER CODE BEGIN EnvSensors_Init_1 */
-	DrvStatusTypeDef ret;
+
 
 	BSP_TEMPERATURE_Init(HTS221_T_0, &TEMPERATURE_handle);
-	dbg_printf_send("TEMP handle=%p\r\n\n", TEMPERATURE_handle);
-	ret = BSP_TEMPERATURE_Sensor_Enable(TEMPERATURE_handle);
-	dbg_printf_send("TEMP Enable return = %d\r\n\n", (int)ret);
+	BSP_TEMPERATURE_Sensor_Enable(TEMPERATURE_handle);
   /* USER CODE END EnvSensors_Init_1 */
   
   // 4. TODO LORA USE_LRWAN_NS1: initialize sensors
