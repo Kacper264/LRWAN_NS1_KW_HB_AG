@@ -64,7 +64,11 @@ IKS01A2_ENV_SENSOR_Capabilities_t EnvCapabilities;
 
 // 3. TODO LORA USE_LRWAN_NS1: instanciate handle variables for humidity, temperature and pressure
 // 3. TODO LORA USE_LRWAN_NS1: #if defined()/#endif style
-
+#if defined(USE_LRWAN_NS1)
+void *HUMIDITY_handle = 0;
+void *TEMPERATURE_handle = 0;
+void *PRESSURE_handle = 0;
+#endif
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/

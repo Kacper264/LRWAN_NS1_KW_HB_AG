@@ -83,6 +83,7 @@ int main(void)
   // 0. TODO LORA USE_LRWAN_NS1: Print "init done" on console
   // 0. TODO LORA USE_LRWAN_NS1: hint: use dbg_printf_send() (where is it? how does it work?)
   dbg_printf_send("%s\n", "Init done");
+
   /* Infinite loop */
   while (1)
   {
