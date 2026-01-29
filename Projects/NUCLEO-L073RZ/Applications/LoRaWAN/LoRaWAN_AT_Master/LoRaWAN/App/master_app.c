@@ -188,7 +188,7 @@ static void SensorMeasureData(sSendDataBinary_t *SendDataBinary)
   temperature = Sensor.temperature;
   humidity = Sensor.humidity;
   pressure = Sensor.pressure;
-  dbg_printf_send("Temperature: %.2f C | Humidity: %.2f %% | Pressure: %.2f hPa\r\n", temperature, humidity, pressure);
+  dbg_printf_send("Temperature: %ld C | Humidity: %ld %% | Pressure: %ld hPa\r\n", (long)temperature, (long)humidity, (long)pressure);
 
 #endif
   // 6. TODO LORA: convert temperature, pressure, humidity to data for SendDataBinary->Buffer

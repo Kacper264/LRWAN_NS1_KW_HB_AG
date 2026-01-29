@@ -19,6 +19,8 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "sys_sensors.h"
+#include "lrwan_ns1_temperature.h"
+#include "lrwan_ns1_printf.h"
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
@@ -89,7 +91,11 @@ void EnvSensors_Read(sensor_t *sensor_data)
   // 5. TODO LORA USE_LRWAN_NS1: get values from humidity, temperature and pressure sensors
   // 5. TODO LORA USE_LRWAN_NS1: #if defined()/#elif style (next if becomes an elif)
   // 5. TODO LORA USE_LRWAN_NS1: otherwhise they are always using the same default values (which ones?)
-#if defined (SENSOR_ENABLED) && (SENSOR_ENABLED == 1)
+#if defined(USE_LRWAN_NS1)
+
+  BSP_TEMPERATURE_Get_Temp(TEMPERATURE_handle, &TEMPERATURE_Value);
+
+#elif defined (SENSOR_ENABLED) && (SENSOR_ENABLED == 1)
 #if (USE_IKS01A2_ENV_SENSOR_HTS221_0 == 1)
   IKS01A2_ENV_SENSOR_GetValue(HTS221_0, ENV_HUMIDITY, &HUMIDITY_Value);
   IKS01A2_ENV_SENSOR_GetValue(HTS221_0, ENV_TEMPERATURE, &TEMPERATURE_Value);
@@ -116,7 +122,12 @@ void EnvSensors_Read(sensor_t *sensor_data)
 void  EnvSensors_Init(void)
 {
   /* USER CODE BEGIN EnvSensors_Init_1 */
+	DrvStatusTypeDef ret;
 
+	BSP_TEMPERATURE_Init(HTS221_T_0, &TEMPERATURE_handle);
+	dbg_printf_send("TEMP handle=%p\r\n\n", TEMPERATURE_handle);
+	ret = BSP_TEMPERATURE_Sensor_Enable(TEMPERATURE_handle);
+	dbg_printf_send("TEMP Enable return = %d\r\n\n", (int)ret);
   /* USER CODE END EnvSensors_Init_1 */
   
   // 4. TODO LORA USE_LRWAN_NS1: initialize sensors
@@ -125,6 +136,7 @@ void  EnvSensors_Init(void)
 
 #if defined (SENSOR_ENABLED) && (SENSOR_ENABLED == 1)
   /* Init */
+
 #if (USE_IKS01A2_ENV_SENSOR_HTS221_0 == 1)
   IKS01A2_ENV_SENSOR_Init(HTS221_0, ENV_TEMPERATURE | ENV_HUMIDITY);
 #endif /* USE_IKS01A2_ENV_SENSOR_HTS221_0 */
