@@ -30,6 +30,7 @@
 #include "app_master.h"
 #include <stdarg.h>
 #include "rtc_if.h"
+#include "lrwan_ns1_printf.h"
 
 #include ATCMD_MODEM        /* preprocessing definition in sys_conf.h*/
 
@@ -81,7 +82,7 @@ int main(void)
 
   // 0. TODO LORA USE_LRWAN_NS1: Print "init done" on console
   // 0. TODO LORA USE_LRWAN_NS1: hint: use dbg_printf_send() (where is it? how does it work?)
- 
+  dbg_printf_send("%s\n", "Init done");
   /* Infinite loop */
   while (1)
   {
