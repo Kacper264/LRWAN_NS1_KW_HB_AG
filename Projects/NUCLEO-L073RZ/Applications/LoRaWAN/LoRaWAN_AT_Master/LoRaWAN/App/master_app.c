@@ -200,7 +200,30 @@ static void SensorMeasureData(sSendDataBinary_t *SendDataBinary)
   dbg_printf_send("Temperature2: %ld decC | Humidity2: %ld %% | Pressure2: %ld dahPa\r\n", temperature, humidity, pressure);
   // 7. TODO LORA: create your data payload as per defined in the practical work
   // 7. TODO LORA: you will write into the SendDataBinary->Buffer
- 
+  uint32_t BatLevel;
+  Lora_GetBatLevel(&BatLevel);
+
+  uint8_t battery_percent = (uint8_t)((BatLevel * 100U) / 254U);
+
+  const char group_id[] = "KW_HB_AG";
+  uint8_t gid_len = sizeof(group_id) - 1;
+
+  SendDataBinary->Buffer[index++] = 1;
+  SendDataBinary->Buffer[index++] = LPP_DATATYPE_FRAME_IDENTIFIER;
+  SendDataBinary->Buffer[index++] = gid_len;
+  memcpy(&SendDataBinary->Buffer[index], group_id, gid_len);
+  index += gid_len;
+
+  SendDataBinary->Buffer[index++] = 2;
+  SendDataBinary->Buffer[index++] = LPP_DATATYPE_TEMPERATURE;
+  SendDataBinary->Buffer[index++] = 2;
+  SendDataBinary->Buffer[index++] = (temperature >> 8) & 0xFF;  // MSB
+  SendDataBinary->Buffer[index++] =  temperature       & 0xFF;  // LSB
+
+  SendDataBinary->Buffer[index++] = 3;
+  SendDataBinary->Buffer[index++] = LPP_DATATYPE_DIGITAL_INPUT;
+  SendDataBinary->Buffer[index++] = 1;
+  SendDataBinary->Buffer[index++] = battery_percent;
 
 #else
 
