@@ -28,9 +28,11 @@
 #include "ee.h"
 #include "stm32_mem.h"
 #include "app_master.h"
+#include "lrwan_ns1_printf.h"
 #if USE_LRWAN_NS1
 #include "stdio.h"
 #include "usart.h"
+
 #endif
 
 /* External variables --------------------------------------------------------*/
@@ -2170,7 +2172,8 @@ void Lora_fsm(void)
         // 9. TODO LORA
         // call the appropriate Lora driver function to send the binary data we formatted earlier.
         // also: check and print the return code, verbose it and compare against status AT_OK 
-
+        LoraCmdRetCode = Lora_SendDataBin(&SendDataBinary);
+        dbg_printf_send("%s\n", LoraCmdRetCode);
     
 #ifndef USE_LRWAN_NS1
         if (LoraCmdRetCode == AT_OK)
