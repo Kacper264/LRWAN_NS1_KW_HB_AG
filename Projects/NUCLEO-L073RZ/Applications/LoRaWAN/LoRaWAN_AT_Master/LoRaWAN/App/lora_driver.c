@@ -2173,8 +2173,8 @@ void Lora_fsm(void)
         // call the appropriate Lora driver function to send the binary data we formatted earlier.
         // also: check and print the return code, verbose it and compare against status AT_OK 
         LoraCmdRetCode = Lora_SendDataBin(&SendDataBinary);
-        dbg_printf_send("%s\n", LoraCmdRetCode);
-    
+        dbg_printf_send("%d\n", LoraCmdRetCode);
+
 #ifndef USE_LRWAN_NS1
         if (LoraCmdRetCode == AT_OK)
         {
